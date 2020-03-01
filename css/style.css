@@ -1,0 +1,80 @@
+body{
+    height: 500px;
+    width: 100%;
+    background-color: seagreen;
+}
+img{
+    width: 200px;
+    height: 200px;
+    margin: 5px;
+    border: brown solid;
+    cursor: pointer;
+}
+ul{
+    margin: 20px;
+}
+li{
+    font-size: large;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+    margin: 5px;
+    list-style: square;
+}
+h1{
+    border: brown solid;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    font-size: xx-large;
+}
+h2{
+    font-size: x-large;
+    margin: 20px;
+}
+aside{
+    float: left;
+    width: 600px;
+    height: 500px;
+    border: chartreuse solid;
+}
+form{
+    border: solid silver;
+    padding: 20px;
+    margin: 10px 40px 10px 0;
+    width: 650px;
+    float: right;
+    position: relative;
+}
+div{
+    clear: right;
+}
+#startButton{
+    background-color: red;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    position: absolute;
+    right: 400px;
+    bottom: 35px;
+}
+#startButton:hover{
+    background-color: green;
+    border: solid red;
+}
+input{
+    border:salmon solid;
+}
+input:focus{
+    border: skyblue solid;
+}
+label{
+    font-size: large;
+    font-weight: bold;
+    display: block;
+    margin: 10px 0 2px 0;
+}
+legend{
+    font-size: x-large;
+    font-weight: bolder;
+    color: white;
+}
