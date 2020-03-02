@@ -78,3 +78,6 @@ legend{
     font-weight: bolder;
     color: white;
 }
+#chartDiv{
+    width: 500px;
+}
