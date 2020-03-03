@@ -6,13 +6,12 @@ var divcounts = document.getElementById('counts');
 var imagesName = ['bag','chair','pen','shark','water-can','banana','bathroom','boots','breakfast','bubblegum','cthulhu','dog-duck','dragon','pet-sweep','scissors','tauntaun','wine-glass','sweep','usb'];
 var imagegif = ['usb']; // Array for Gif pictures type
 var imagepng = ['sweep']; // Array for Png pictures type
-
 var rounds = 0; // number of rounds want to go (lab-11 = 25 round)
 var allObj = []; // Array for objects
 var numOfImg = 3; //initial value for images want to display
 var randArr = []; // Array for random index for images
 var roundNum = 0; // number of rounds with initial value = 0
-
+var shownnn =[];
 var startButton = document.getElementById('startButton');
 var form = document.getElementById('form');
 
@@ -24,6 +23,7 @@ function Bus(name){
   this.count = 0;
   this.shown =0;
   allObj.push(this);
+  shownnn.push(this.shown);
   this.imgg();
 }
 
@@ -44,13 +44,18 @@ Bus.prototype.imgg=function(){
 for(let i = 0;i<imagesName.length;i++){
   new Bus(imagesName[i]);
 }
-
+getItem();
 
 /**********************************Form (start/restart) ********************************** */
 form.addEventListener('submit',updateImage);
 
 function updateImage(e){
   e.preventDefault();
+  // setItem();    //to setItem every round not at the last one only
+  for(let i =0;i<allObj.length;i++){
+    allObj[i].count=0;
+    allObj[i].shown=0;
+  }
   if( startButton.value === 'start'){
     rounds = parseInt(e.target.numOfRound.value);
     numOfImg = parseInt(e.target.numOfImg.value);
@@ -71,12 +76,12 @@ function updateImage(e){
     form.reset();
 
     // reset variables to initial values
-    for(let i =0;i<allObj.length;i++){
-      allObj[i].count=0;
-      allObj[i].shown=0;
-    }
+    // for(let i =0;i<allObj.length;i++){
+    //   allObj[i].count=0;
+    //   allObj[i].shown=0;
+    // }
     randArr = [];
-    roundNum=0;
+    roundNum = 0;
     displayImages();
 
     divImages.addEventListener('click',clickupdate);
@@ -112,11 +117,19 @@ function clickupdate(e){
   if(roundNum === rounds){
     divImages.removeEventListener('click',clickupdate);
     displayCount();
+    // remove images
+    var imagesDisplayed = divImages.lastElementChild;
+    while (imagesDisplayed) {
+      imagesDisplayed.parentNode.removeChild(imagesDisplayed);
+      imagesDisplayed = divImages.lastElementChild;
+    }
+    return;
   }
   if(e.target.src){
     var child = divImages.lastElementChild;
     while (child) {
-      divImages.removeChild(child);
+      // divImages.removeChild(child);
+      child.parentNode.removeChild(child);
       child = divImages.lastElementChild;
     }
     displayImages();
@@ -133,9 +146,11 @@ function displayCount(){
     var liEl = document.createElement('li');
     divcounts.appendChild(liEl);
     liEl.textContent = `${allObj[i].name} had ${allObj[i].count} votes and was shown ${allObj[i].shown} times`;
-    drawCharts();
-    drawPi();
-  }}
+  }
+  drawCharts();
+  drawPi();
+  setItem();
+}
 
 
 
@@ -145,8 +160,31 @@ function random(min,max){
 }
 
 
+/**************************************Local Storage*********************************** */
+//set Item function
+function setItem(){
+  for(let i = 0 ; i < imagesName.length;i++){
+    shownnn[i] += allObj[i].shown;
+    allObj[i].shown = shownnn[i];
+    allObj[i].count = 0;
+  }
+  localStorage.setItem('views',JSON.stringify(allObj));
+}
+
+// get Item function
+function getItem(){
+  if (localStorage.getItem('views') !== null){
+
+    allObj = JSON.parse(localStorage.getItem('views'));
+    for(let i = 0 ; i < imagesName.length;i++){
+      shownnn.push(allObj[i].shown);
+    }
+  }
+}
+
 /*************************************Charts*********************************** */
 // Bar chart
+
 function drawCharts(){
   var clicksvar = [];
   var shownvar = [];
@@ -247,7 +285,7 @@ function drawPi(){
         data: shownvar,
         fill: true,
         backgroundColor: colors,
-        borderColor:	'gold',
+        borderColor:	'pink',
         borderWidth: 2,
         hoverBorderWidth: 10}
     ]};
@@ -256,15 +294,21 @@ function drawPi(){
   var options = {
     title: {
       display: true,
-      text: 'Chart',
-      position: 'top'
-    },
-    labels: {
-      boxWidth: 20,
+      text: 'Chart for clicks(outer circle) and views(inner circle)  ',
+      position: 'top',
       fontColor: 'black',
-      padding: 15
+      fontSize: 20
     },
-    rotation: -0.7 * Math.PI
+    legend: {
+      display: true,
+      position: 'right',
+      labels: {
+        boxWidth: 20,
+        fontColor: 'red',
+        padding: 15
+      },
+      rotation: -0.7 * Math.PI,
+    }
   };
 
   // Chart declaration:
