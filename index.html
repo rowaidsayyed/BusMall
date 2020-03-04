@@ -13,12 +13,7 @@
     </header>
     <main>
         <h1>Bus Mall</h1>
-        <aside>
-            <div >
-                <h2>Results</h2>
-                <ul id='counts'></ul>
-            </div>
-        </aside>
+      
         <form id="form">
             <fieldset>
                   <legend>Numbers</legend>
@@ -28,17 +23,27 @@
                 <label for="numOfImg">number of images</label>
                 <input type="text" id="numOfImg" placeholder="enter number Of Images " required>
    
-                <input id='startButton' value='start' type="submit">
+                <input id='startButton' value='start' type="submit"> 
             </fieldset>
         </form>
         <div id='images'></div>
-        <div id='chartDiv'>
+        <aside>
+            <div >
+                <h2>Results</h2>
+                <ul id='counts'></ul>
+            </div>
+        </aside>
+        <div class='chartDiv'>
             <canvas id='idChart' ></canvas>
         </div>
-        <div>
+        <div class='chartDiv'>
             <canvas id="chart-area"></canvas>
         </div>
-        
+        <div>
+            
+            
+           
+        </div>
     </main>
 
     <footer>
